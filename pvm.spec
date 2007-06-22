@@ -158,6 +158,8 @@ make CFLOPTS="$PCFLOPTS"
 XPVM_ROOT=${PVM_ROOT}/xpvm
 export XPVM_ROOT=${XPVM_ROOT}
 export PVM_ROOT=${PVM_ROOT}
+# (tv) fix build with tcl-8.5:
+perl -pi -e 's!(-lt(cl|k)8).[40]!\1.5!' $XPVM_ROOT/src/Makefile.aimk*
 %ifarch x86_64
 make -C ${XPVM_ROOT} CFLOPTS="$PCFLOPTS" XLIBDIR="-L /usr/X11R6/lib64"
 %else
