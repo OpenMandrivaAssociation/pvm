@@ -1,6 +1,6 @@
 %define name pvm
 %define version 3.4.5
-%define release %mkrel 4
+%define release %mkrel 5
 %define pvmpath %{_datadir}/pvm3
 %define xpvmpath %{name}3/xpvm
 
@@ -9,7 +9,7 @@ Name: 		%name
 Version: 	%version
 Release: 	%release
 License:	GPL
-Group:		Cluster/Message Passing 
+Group:		Sytem/Cluster
 Source0:	%{name}%{version}.tar.bz2
 Source1:	%{name}d.init
 Source2:	ftp://www.netlib.org/pvm3/book/%{name}-book.ps
@@ -91,7 +91,7 @@ This package contains PVM header files and static libraries.
 
 %package examples
 Summary:	PVM examples
-Group:		Cluster/Message Passing 
+Group:		System/Cluster
 Requires:	lib%{name}-devel = %{version}
 
 %description examples
