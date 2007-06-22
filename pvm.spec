@@ -9,7 +9,7 @@ Name: 		%name
 Version: 	%version
 Release: 	%release
 License:	GPL
-Group:		Sytem/Cluster
+Group:		System/Cluster
 Source0:	%{name}%{version}.tar.bz2
 Source1:	%{name}d.init
 Source2:	ftp://www.netlib.org/pvm3/book/%{name}-book.ps
