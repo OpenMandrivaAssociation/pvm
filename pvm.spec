@@ -29,7 +29,6 @@ BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	readline-devel
 BuildRequires:	m4
 BuildRequires:	tcl tcl-devel tk tk-devel
-Prereq:		/sbin/chkconfig
 Requires: 	initscripts >= 5.54, bash >= 2, shadow-utils, openssh-server, openssh-clients
 BuildRoot: 	%{_tmppath}/%name-buildroot
 
