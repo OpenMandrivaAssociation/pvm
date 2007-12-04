@@ -109,7 +109,7 @@ Patch3:		xlibdir.patch
 Group:          Development/Other
 Url:            http://www.netlib.org/pvm3/
 Requires:       pvm, tcl, tk
-BuildRequires:	XFree86-devel, tk, tcl
+BuildRequires:	X11-devel, tk, tcl
 
 %description xpvm
 XPVM is a graphical console and monitor for PVM. It provides a
