@@ -30,6 +30,7 @@ BuildRequires:	readline-devel
 BuildRequires:	m4
 BuildRequires:	tcl tcl-devel tk tk-devel
 Requires: 	initscripts >= 5.54, bash >= 2, shadow-utils, openssh-server, openssh-clients
+BuildRoot: 	%{_tmppath}/%name-buildroot
 
 %define		_pvm_root 	/usr/share/%{name}3
 
