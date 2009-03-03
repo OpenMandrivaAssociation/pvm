@@ -1,6 +1,6 @@
 %define name pvm
 %define version 3.4.5
-%define release %mkrel 9
+%define release %mkrel 10
 %define pvmpath %{_datadir}/pvm3
 %define xpvmpath %{name}3/xpvm
 
@@ -20,6 +20,7 @@ Source8:	sendPublicKeyToHosts
 Source9:	pvm.sh
 Patch0:		%{name}-aimk.patch
 Patch1:		%{name}-noenv.patch
+Patch3:		xlibdir.patch
 Patch4:		pvm3-gcc4.diff
 Patch5:		pvm-ia64.patch
 Patch6:		pvm-ia64-1.patch
@@ -104,8 +105,6 @@ Group:		Monitoring
 Requires:	%{name} = %{version}
 Source3:	xpvm.src.1.2.5.tar.bz2
 Source4:	xpvm.userguide.bz2
-Patch2:         pvm-tcltk.patch
-Patch3:		xlibdir.patch
 Group:          Development/Other
 Url:            http://www.netlib.org/pvm3/
 Requires:       pvm, tcl, tk
@@ -126,7 +125,7 @@ ln -sf ${RPM_BUILD_DIR}/pvm3 ${RPM_BUILD_DIR}/%{name}-%{version}
 
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+#%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 
@@ -149,7 +148,7 @@ sed -e "s!@PVM_ROOT@!%{_pvm_root}!" -e "s!@PVM_ARCH@!%{_pvm_arch}!" lib/aimk.tmp
 PCFLOPTS="-DDEFBINDIR=\\\"%{_pvm_root}/lib/$PVM_ARCH\\\""
 PCFLOPTS="$PCFLOPTS -DDEFDEBUGGER=\\\"%{_pvm_root}/lib/debugger2\\\""
 PCFLOPTS="$PCFLOPTS -DPVMDPATH=\\\"%{_pvm_root}/lib/%{_pvm_arch}/pvmd3\\\""
-PCFLOPTS="$PCFLOPTS -DPVMROOT=\\\"%{_pvm_root}\\\" -fPIC"
+PCFLOPTS="$PCFLOPTS -DPVMROOT=\\\"%{_pvm_root}\\\" -fPIC -DUSE_INTERP_RESULT"
 export PVM_ROOT=`pwd` 
 
 make CFLOPTS="$PCFLOPTS"
@@ -158,7 +157,7 @@ XPVM_ROOT=${PVM_ROOT}/xpvm
 export XPVM_ROOT=${XPVM_ROOT}
 export PVM_ROOT=${PVM_ROOT}
 # (tv) fix build with tcl-8.5:
-perl -pi -e 's!(-lt(cl|k)8).[40]!\1.5!' $XPVM_ROOT/src/Makefile.aimk*
+perl -pi -e 's!(-lt(cl|k)8).[40]!\1.6!' $XPVM_ROOT/src/Makefile.aimk*
 %ifarch x86_64
 make -C ${XPVM_ROOT} CFLOPTS="$PCFLOPTS" XLIBDIR="-L /usr/X11R6/lib64"
 %else
