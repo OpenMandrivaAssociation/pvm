@@ -1,6 +1,6 @@
 %define name pvm
-%define version 3.4.5
-%define release %mkrel 11
+%define version 3.4.6
+%define release %mkrel 1
 %define pvmpath %{_datadir}/pvm3
 %define xpvmpath %{name}3/xpvm
 
@@ -132,13 +132,13 @@ ln -sf ${RPM_BUILD_DIR}/pvm3 ${RPM_BUILD_DIR}/%{name}-%{version}
 %ifarch ia64
 %patch5 -p1
 %patch6 -p1
-%patch7 -p0
+#%patch7 -p0
 %endif
 
 %ifarch x86_64
 %patch5 -p1
 %patch6 -p1
-%patch7 -p0
+#%patch7 -p0
 %endif
 
 %build
