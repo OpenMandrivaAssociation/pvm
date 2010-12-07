@@ -1,6 +1,6 @@
 %define name pvm
 %define version 3.4.6
-%define release %mkrel 1
+%define release %mkrel 2
 %define pvmpath %{_datadir}/pvm3
 %define xpvmpath %{name}3/xpvm
 
