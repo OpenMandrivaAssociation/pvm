@@ -120,7 +120,7 @@ performance tuning.
 
 %prep 
 %setup -q -n pvm3
-ln -sf ${RPM_BUILD_DIR}/pvm3 ${RPM_BUILD_DIR}/%{name}-%{version}
+ln -sf %{_builddir}/pvm3 %{_builddir}/%{name}-%{version}
 %setup -q -T -D -a 3
 
 %patch0 -p1
@@ -199,27 +199,27 @@ touch $RPM_BUILD_ROOT%{_pvm_root}/pvmhosts
 
 # Examples
 mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv $RPM_BUILD_DIR/pvm3/examples $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv $RPM_BUILD_DIR/pvm3/gexamples $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv $RPM_BUILD_DIR/pvm3/hoster $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv $RPM_BUILD_DIR/pvm3/misc $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv $RPM_BUILD_DIR/pvm3/tasker $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv $RPM_BUILD_DIR/pvm3/xep $RPM_BUILD_ROOT%{_docdir}/%{name}/source
+mv %{_builddir}/pvm3/examples $RPM_BUILD_ROOT%{_docdir}/%{name}/source
+mv %{_builddir}/pvm3/gexamples $RPM_BUILD_ROOT%{_docdir}/%{name}/source
+mv %{_builddir}/pvm3/hoster $RPM_BUILD_ROOT%{_docdir}/%{name}/source
+mv %{_builddir}/pvm3/misc $RPM_BUILD_ROOT%{_docdir}/%{name}/source
+mv %{_builddir}/pvm3/tasker $RPM_BUILD_ROOT%{_docdir}/%{name}/source
+mv %{_builddir}/pvm3/xep $RPM_BUILD_ROOT%{_docdir}/%{name}/source
 install %{SOURCE2}  $RPM_BUILD_ROOT%{_docdir}/%{name}/pvm-book.ps
 gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}/pvm-book.ps
 
 #xpvm
 install -d $RPM_BUILD_ROOT/usr/X11R6/bin
-install -m 0755 $RPM_BUILD_DIR/%{xpvmpath}/src/%{_pvm_arch}/xpvm %{buildroot}%{_bindir}
+install -m 0755 %{_builddir}/%{xpvmpath}/src/%{_pvm_arch}/xpvm %{buildroot}%{_bindir}
 LIBDIR=/usr/X11R6/lib/xpvm
 install -d -m 755 $RPM_BUILD_ROOT$LIBDIR
 install -d -m 755 $RPM_BUILD_ROOT$LIBDIR/src
 install -d -m 755 $RPM_BUILD_ROOT$LIBDIR/src/xbm
 install -d -m 755 $RPM_BUILD_ROOT$LIBDIR/src/help
-install -m 0644 $RPM_BUILD_DIR/%{xpvmpath}/*.tcl $RPM_BUILD_ROOT$LIBDIR
-install -m 0644 $RPM_BUILD_DIR/%{xpvmpath}/src/xbm/*.xbm $RPM_BUILD_ROOT$LIBDIR/src/xbm
-install -m 0644 $RPM_BUILD_DIR/%{xpvmpath}/src/help/*.help $RPM_BUILD_ROOT$LIBDIR/src/help
-install -m 0644 $RPM_BUILD_DIR/%{xpvmpath}/README .
+install -m 0644 %{_builddir}/%{xpvmpath}/*.tcl $RPM_BUILD_ROOT$LIBDIR
+install -m 0644 %{_builddir}/%{xpvmpath}/src/xbm/*.xbm $RPM_BUILD_ROOT$LIBDIR/src/xbm
+install -m 0644 %{_builddir}/%{xpvmpath}/src/help/*.help $RPM_BUILD_ROOT$LIBDIR/src/help
+install -m 0644 %{_builddir}/%{xpvmpath}/README .
 install -m 0644 %{SOURCE4} .
 
 
