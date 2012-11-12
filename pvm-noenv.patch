@@ -1,0 +1,34 @@
+--- pvm3/src/pvmcruft.c.wiget	Thu Sep 27 23:25:10 2001
++++ pvm3/src/pvmcruft.c	Mon Nov 12 16:48:05 2001
+@@ -874,9 +874,7 @@
+ #endif
+ 
+ 		if (!rd) {
+-			pvmlogerror("PVM_ROOT environment variable not set.\n");
+-			pvmbailout(0);
+-			exit(1);		/* the other meaning of bail out */
++			return PVMROOT;
+ 		}
+ 	}
+ 
+@@ -949,19 +947,7 @@
+ char *
+ pvmgetpvmd()
+ {
+-	char *r;
+-	static char *pp = 0;
+-
+-	if (!pp) {
+-		if (PVMDFILE[0] == '/')
+-			pp = PVMDFILE;
+-		else {
+-			r = pvmgetroot();
+-			pp = TALLOC(strlen(r) + strlen(PVMDFILE) + 2, char, "pvmdpath");
+-			sprintf(pp, "%s/%s", r, PVMDFILE);
+-		}
+-	}
+-	return pp;
++	return PVMDPATH;
+ }
+ 
+ 

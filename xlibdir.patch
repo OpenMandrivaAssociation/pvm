@@ -1,0 +1,11 @@
+--- pvm3/xpvm/src/Makefile.aimk.old	Mon Mar  4 17:58:20 2002
++++ pvm3/xpvm/src/Makefile.aimk	Mon Mar  4 17:55:58 2002
+@@ -87,7 +87,7 @@
+ #XLIBDIR	=	-L/usr/lib
+ # Linux Like Systems
+ #XINCL		=	-I/usr/X11R6/include
+-#XLIBDIR	=	-L/usr/X11R6/lib
++XLIBDIR	=	-L /usr/X11R6/lib
+ 
+ XLIB		=	-lX11 
+ #XLIB		=	-lX11 -lXpm
