@@ -1,0 +1,5 @@
+#!/bin/bash
+PUBKEY=~/.ssh/id_dsa
+rm -rf $PUBKEY 2>/dev/null
+echo Generating ssh public key
+ssh-keygen -t dsa -f $PUBKEY -N "" -q

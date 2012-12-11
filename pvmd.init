@@ -1,0 +1,72 @@
+#!/bin/bash
+#
+# Startup script for PVM 
+#
+# description: PVM is Parallel Virtual Machine and provides the core of the \
+#	       Beowulf cluster.
+# processname: pvmd
+# pidfile: /var/run/pvmd.pid
+
+# Source function library.
+. /etc/init.d/functions
+
+prog="pvmd3"
+export PVM_ROOT=/usr/share/pvm3 
+export PVMD_NOHOLD=ON
+export PVM_TMP=/var/run/pvm3
+export PVM_RSH=ssh
+PVM_HOST_FILE=${PVM_ROOT}/pvmhosts #This file should contains the node names that the server must start.
+
+# If the size is 0 or the PVM_HOST_FILE doesn't exists, tell pvmd to start without this config file.
+if [ ! -s ${PVM_HOST_FILE} ]; then
+PVM_HOST_FILE=""
+fi
+
+start(){
+    gprintf "Starting %s: " "$prog"
+    rm -f /var/run/pvm3/* 2> /dev/null
+    daemon --user pvm /usr/share/pvm3/lib/pvmd ${PVM_HOST_FILE}
+    echo
+    touch /var/lock/subsys/pvm
+}
+
+stop(){
+    gprintf "Stopping %s: " "$prog"
+    killproc pvmd3
+    rm -f /var/run/pvm3/* 2> /dev/null
+    echo
+    rm -f /var/lock/subsys/pvm
+}
+
+condrestart(){
+    [ -e /var/lock/subsys/pvmd ] && restart || :
+}
+    
+
+
+# See how we were called.
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    status)
+	status pvmd3
+	;;
+    restart)
+	stop
+	start
+	;;
+    reload)
+	;;
+    condrestart)
+	condrestart
+	;;
+    *)
+	gprintf "Usage: %s {start|stop|restart|reload|status|condrestart}\n" "$0"
+	exit 1
+esac
+
+exit 0

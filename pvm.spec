@@ -29,9 +29,15 @@ URL:		http://www.epm.ornl.gov/pvm/pvm_home.html
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	readline-devel
 BuildRequires:	m4
-BuildRequires:	tcl tcl-devel tk tk-devel
-Requires: 	initscripts >= 5.54, bash >= 2, shadow-utils, openssh-server, openssh-clients
-BuildRoot: 	%{_tmppath}/%name-buildroot
+BuildRequires:	tcl
+BuildRequires:	tcl-devel
+BuildRequires:	tk
+BuildRequires:	tk-devel
+Requires: 	initscripts >= 5.54
+Requires: 	bash >= 2
+Requires: 	shadow-utils
+Requires: 	openssh-server
+Requires: 	openssh-clients
 
 %define		_pvm_root 	/usr/share/%{name}3
 
@@ -120,7 +126,7 @@ performance tuning.
 
 %prep 
 %setup -q -n pvm3
-ln -sf %{_builddir}/pvm3 %{_builddir}/%{name}-%{version}
+ln -sf ${RPM_BUILD_DIR}/pvm3 ${RPM_BUILD_DIR}/%{name}-%{version}
 %setup -q -T -D -a 3
 
 %patch0 -p1
@@ -165,66 +171,62 @@ make -C ${XPVM_ROOT} CFLOPTS="$PCFLOPTS"
 %endif
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_pvm_root}/lib/%{_pvm_arch}
-mkdir -p $RPM_BUILD_ROOT/var/run/pvm3
-mkdir -p $RPM_BUILD_ROOT%{_pvm_root}/conf
+mkdir -p %{buildroot}%{_pvm_root}/lib/%{_pvm_arch}
+mkdir -p %{buildroot}/var/run/pvm3
+mkdir -p %{buildroot}%{_pvm_root}/conf
 
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir},%{_libdir},%{_pvm_root}/conf,%{_docdir}/%{name}} \
-	$RPM_BUILD_ROOT/%{name}/{examples,gexamples,hoster,misc,tasker,xep} \
-	$RPM_BUILD_ROOT{%{_mandir}/man{1,3},/etc/rc.d/init.d,%{_sbindir}} \
-	$RPM_BUILD_ROOT/%{_sysconfdir}/profile.d
+install -d %{buildroot}{%{_bindir},%{_includedir},%{_libdir},%{_pvm_root}/conf,%{_docdir}/%{name}} \
+	%{buildroot}/%{name}/{examples,gexamples,hoster,misc,tasker,xep} \
+	%{buildroot}{%{_mandir}/man{1,3},/etc/rc.d/init.d,%{_sbindir}} \
+	%{buildroot}/%{_sysconfdir}/profile.d
 
-install %{SOURCE1}  $RPM_BUILD_ROOT/etc/rc.d/init.d/pvm
-install lib/%{_pvm_arch}/{pvm,pvmgs} $RPM_BUILD_ROOT%{_pvm_root}/lib/%{_pvm_arch}
-install lib/%{_pvm_arch}/pvmd3 $RPM_BUILD_ROOT%{_pvm_root}/lib/%{_pvm_arch}
-install lib/pvm		$RPM_BUILD_ROOT%{_pvm_root}
-install lib/debugger	$RPM_BUILD_ROOT%{_pvm_root}/lib
-install lib/debugger2	$RPM_BUILD_ROOT%{_pvm_root}/lib
-install lib/pvmgetarch	$RPM_BUILD_ROOT%{_pvm_root}/lib
-install lib/pvmtmparch	$RPM_BUILD_ROOT%{_pvm_root}/lib
-install lib/aimk	$RPM_BUILD_ROOT%{_pvm_root}/lib
-install lib/pvmd	$RPM_BUILD_ROOT%{_pvm_root}/lib
-install conf/%{_pvm_arch}.def $RPM_BUILD_ROOT%{_pvm_root}/conf
-install include/{fpvm3,pvm3,pvmproto,pvmtev}.h $RPM_BUILD_ROOT%{_includedir}
-install lib/%{_pvm_arch}/lib*.a $RPM_BUILD_ROOT%{pvmlib}
-install man/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
-install man/man3/* $RPM_BUILD_ROOT%{_mandir}/man3
-install %{SOURCE5} $RPM_BUILD_ROOT%{_pvm_root}/.bashrc
-install %{SOURCE6} $RPM_BUILD_ROOT%{_pvm_root}
-install %{SOURCE7} $RPM_BUILD_ROOT%{_pvm_root}
-install %{SOURCE8} $RPM_BUILD_ROOT%{_pvm_root}
-install -m 755 %{SOURCE9} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
-touch $RPM_BUILD_ROOT%{_pvm_root}/pvmhosts
+install %{SOURCE1}  %{buildroot}/etc/rc.d/init.d/pvm
+install lib/%{_pvm_arch}/{pvm,pvmgs} %{buildroot}%{_pvm_root}/lib/%{_pvm_arch}
+install lib/%{_pvm_arch}/pvmd3 %{buildroot}%{_pvm_root}/lib/%{_pvm_arch}
+install lib/pvm		%{buildroot}%{_pvm_root}
+install lib/debugger	%{buildroot}%{_pvm_root}/lib
+install lib/debugger2	%{buildroot}%{_pvm_root}/lib
+install lib/pvmgetarch	%{buildroot}%{_pvm_root}/lib
+install lib/pvmtmparch	%{buildroot}%{_pvm_root}/lib
+install lib/aimk	%{buildroot}%{_pvm_root}/lib
+install lib/pvmd	%{buildroot}%{_pvm_root}/lib
+install conf/%{_pvm_arch}.def %{buildroot}%{_pvm_root}/conf
+install include/{fpvm3,pvm3,pvmproto,pvmtev}.h %{buildroot}%{_includedir}
+install lib/%{_pvm_arch}/lib*.a %{buildroot}%{pvmlib}
+install man/man1/* %{buildroot}%{_mandir}/man1
+install man/man3/* %{buildroot}%{_mandir}/man3
+install %{SOURCE5} %{buildroot}%{_pvm_root}/.bashrc
+install %{SOURCE6} %{buildroot}%{_pvm_root}
+install %{SOURCE7} %{buildroot}%{_pvm_root}
+install %{SOURCE8} %{buildroot}%{_pvm_root}
+install -m 755 %{SOURCE9} %{buildroot}%{_sysconfdir}/profile.d
+touch %{buildroot}%{_pvm_root}/pvmhosts
 
 # Examples
-mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv %{_builddir}/pvm3/examples $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv %{_builddir}/pvm3/gexamples $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv %{_builddir}/pvm3/hoster $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv %{_builddir}/pvm3/misc $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv %{_builddir}/pvm3/tasker $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-mv %{_builddir}/pvm3/xep $RPM_BUILD_ROOT%{_docdir}/%{name}/source
-install %{SOURCE2}  $RPM_BUILD_ROOT%{_docdir}/%{name}/pvm-book.ps
-gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}/pvm-book.ps
+mkdir -p %{buildroot}%{_docdir}/%{name}/source
+mv $RPM_BUILD_DIR/pvm3/examples %{buildroot}%{_docdir}/%{name}/source
+mv $RPM_BUILD_DIR/pvm3/gexamples %{buildroot}%{_docdir}/%{name}/source
+mv $RPM_BUILD_DIR/pvm3/hoster %{buildroot}%{_docdir}/%{name}/source
+mv $RPM_BUILD_DIR/pvm3/misc %{buildroot}%{_docdir}/%{name}/source
+mv $RPM_BUILD_DIR/pvm3/tasker %{buildroot}%{_docdir}/%{name}/source
+mv $RPM_BUILD_DIR/pvm3/xep %{buildroot}%{_docdir}/%{name}/source
+install %{SOURCE2}  %{buildroot}%{_docdir}/%{name}/pvm-book.ps
+gzip -9nf %{buildroot}%{_docdir}/%{name}/pvm-book.ps
 
 #xpvm
-install -d $RPM_BUILD_ROOT/usr/X11R6/bin
-install -m 0755 %{_builddir}/%{xpvmpath}/src/%{_pvm_arch}/xpvm %{buildroot}%{_bindir}
+install -d %{buildroot}/usr/X11R6/bin
+install -m 0755 $RPM_BUILD_DIR/%{xpvmpath}/src/%{_pvm_arch}/xpvm %{buildroot}%{_bindir}
 LIBDIR=/usr/X11R6/lib/xpvm
-install -d -m 755 $RPM_BUILD_ROOT$LIBDIR
-install -d -m 755 $RPM_BUILD_ROOT$LIBDIR/src
-install -d -m 755 $RPM_BUILD_ROOT$LIBDIR/src/xbm
-install -d -m 755 $RPM_BUILD_ROOT$LIBDIR/src/help
-install -m 0644 %{_builddir}/%{xpvmpath}/*.tcl $RPM_BUILD_ROOT$LIBDIR
-install -m 0644 %{_builddir}/%{xpvmpath}/src/xbm/*.xbm $RPM_BUILD_ROOT$LIBDIR/src/xbm
-install -m 0644 %{_builddir}/%{xpvmpath}/src/help/*.help $RPM_BUILD_ROOT$LIBDIR/src/help
-install -m 0644 %{_builddir}/%{xpvmpath}/README .
+install -d -m 755 %{buildroot}$LIBDIR
+install -d -m 755 %{buildroot}$LIBDIR/src
+install -d -m 755 %{buildroot}$LIBDIR/src/xbm
+install -d -m 755 %{buildroot}$LIBDIR/src/help
+install -m 0644 $RPM_BUILD_DIR/%{xpvmpath}/*.tcl %{buildroot}$LIBDIR
+install -m 0644 $RPM_BUILD_DIR/%{xpvmpath}/src/xbm/*.xbm %{buildroot}$LIBDIR/src/xbm
+install -m 0644 $RPM_BUILD_DIR/%{xpvmpath}/src/help/*.help %{buildroot}$LIBDIR/src/help
+install -m 0644 $RPM_BUILD_DIR/%{xpvmpath}/README .
 install -m 0644 %{SOURCE4} .
 
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %pre
 /usr/sbin/groupadd -g 12385 -r -f pvm > /dev/null 2>&1 ||:
@@ -240,8 +242,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_initrddir}/pvm
 %config(noreplace) %{_sysconfdir}/profile.d/pvm.sh
-%dir %{_pvm_root}
-%dir %{_pvm_root}/lib
+#%dir %{_pvm_root}
+#%dir %{_pvm_root}/lib
 %attr(755,root,pvm) %{_pvm_root}/lib/debugger
 %attr(755,root,pvm) %{_pvm_root}/lib/debugger2
 %attr(755,root,pvm) %{_pvm_root}/lib/pvmgetarch
@@ -260,6 +262,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,pvm) %{_pvm_root}/sendPublicKeyToHosts
 %attr(644,root,pvm) %{_pvm_root}/conf/%{_pvm_arch}.def
 %{_mandir}/man1/*
+%exclude %{_mandir}/man1/aimk.1*
+%exclude %{_pvm_root}/conf
 
 %files -n lib%{name}-devel
 %defattr(644,root,root,755)
@@ -282,4 +286,260 @@ rm -rf $RPM_BUILD_ROOT
 %doc xpvm.userguide.bz2 README
 %attr(755,root,root) %{_bindir}/xpvm
 %attr(755,root,root) /usr/X11R6/lib/xpvm
+
+
+
+%changelog
+* Tue Dec 07 2010 Oden Eriksson <oeriksson@mandriva.com> 3.4.6-2mdv2011.0
++ Revision: 614627
+- the mass rebuild of 2010.1 packages
+
+  + Antoine Ginies <aginies@mandriva.com>
+    - remove old source
+
+* Mon Feb 08 2010 Antoine Ginies <aginies@mandriva.com> 3.4.6-1mdv2010.1
++ Revision: 502371
+- remove path7 (already done in pvm3.4.6); version 3.4.6
+
+* Tue Sep 15 2009 Thierry Vignaud <tv@mandriva.org> 3.4.5-11mdv2010.0
++ Revision: 441968
+- rebuild
+
+* Tue Mar 03 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.4.5-10mdv2009.1
++ Revision: 347778
+- fix build against tcl/tk 8.6
+- drop useless patch
+
+* Fri Aug 01 2008 Thierry Vignaud <tv@mandriva.org> 3.4.5-9mdv2009.0
++ Revision: 259370
+- rebuild
+
+* Thu Jul 24 2008 Thierry Vignaud <tv@mandriva.org> 3.4.5-8mdv2009.0
++ Revision: 247245
+- rebuild
+
+* Fri Dec 21 2007 Olivier Blin <oblin@mandriva.com> 3.4.5-6mdv2008.1
++ Revision: 136445
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+    - buildrequires X11-devel instead of XFree86-devel
+
+* Fri Sep 07 2007 Anssi Hannula <anssi@mandriva.org> 3.4.5-6mdv2008.0
++ Revision: 82070
+- drop prereq
+- rebuild for new soname of tcl
+
+* Fri Jun 22 2007 Thierry Vignaud <tv@mandriva.org> 3.4.5-5mdv2008.0
++ Revision: 43196
+- fix build with tcl-8.5
+- fix group
+- fix group
+
+
+* Wed Jan 04 2006 Erwan Velu <erwan@seanodes.com> 3.4.5-4mdk
+- Using mkrel
+- Removing uggly %%post I made, using profile.d/pvm.sh
+
+* Wed Jan 04 2006 Oden Eriksson <oeriksson@mandriva.com> 3.4.5-3mdk
+- rebuilt against new net-snmp with new major (10)
+
+* Wed Jan 04 2006 Oden Eriksson <oeriksson@mandriva.com> 3.4.5-2mdk
+- rebuilt against soname aware deps (tcl/tk)
+- fix deps
+- added one gcc4 patch by debian (P4)
+
+* Tue Mar 29 2005 Erwan Velu <erwan@seanodes.com> 3.4.5-1mdk
+- 3.4.5
+- Cleaning arch LINUXX86_64 -> LINUX64
+- Fixing Buildrequires
+- TODO: Removing crappy bashrc workaround
+
+* Thu Sep 23 2004 Olivier Blin <blino@mandrake.org> 3.4.4-26mdk
+- do not erase content of the PATH environment variable
+
+* Fri Feb 27 2004 Olivier Thauvin <thauvin@aerov.jussieu.fr> 3.4.4-25mdk
+- Fix some DIRM (distlint)
+
+* Wed Feb 25 2004 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-24mdk
+- Rebuild
+
+* Thu Feb 19 2004 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-23mdk
+- Rebuild against latest tcl/tk
+
+* Wed Jun 18 2003 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-22mdk
+- Enabling x86_64
+
+* Thu Jun 12 2003 Antoien Ginies <aginies@mandrakesoft.com> 3.4.4-21mdk
+- fix user pb when installing
+
+* Tue Jan 28 2003 Lenny Cartier <lenny@mandrakesoft.com> 3.4.4-20mdk
+- rebuild
+
+* Thu Jan 16 2003 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-19mdk
+- Rebuild for new glibc
+
+* Thu Jan 09 2003 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-18mdk
+- IA64 Support
+
+* Thu Dec 12 2002 Clic-dev <clic-dev-public@mandrakesoft.com> 3.4.4-17mdk
+- Fixing wrong right & files in libdevel (Thx to Olivier Lobry)
+- Fixing buildrequires
+- Fixing missing files
+
+* Mon Aug 26 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-16mdk
+- Rebuild
+
+* Tue Aug 06 2002 Antoine Ginies <aginies@mandrakesoft.com> 3.4.4-15mdk
+- build with gcc 3.2
+
+* Wed Jul 10 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-14mdk
+- Changing exports from /etc/profile to /etc/bashc
+
+* Tue Jul 09 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-13mdk
+- Rebuild
+
+* Thu Jul 04 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-12mdk
+- Re-enabling rsh support
+- Adding group write right to /var/run/pvm3
+
+* Fri Jun 28 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-11mdk
+- Fixing update mode (thx to Oden Eriksson)
+
+* Fri Jun 28 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-10mdk
+- Removing autostartup of pvm service
+
+* Tue Jun 25 2002 Antoine Ginies <aginies@mandrakesoft.com> 3.4.4-9mdk
+- set PVM environement in /etc/profile
+
+* Thu Jun 06 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-8mdk
+- Fixing pvm user id
+- Fixing package architecture
+
+* Thu Apr 11 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-7mdk
+- Fixing genpubkey script
+
+* Tue Apr 09 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-6mdk
+- Fixing missing dependencies on openssh
+- Autogenerate ssh public key 
+- Adding null password to pvm user
+- Adding userdel in postun
+- Adding script for distributing ssh public key 
+- Changing group attribution
+
+* Mon Apr 08 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-5mdk
+- Fixing PVM_ROOT export
+- Moving libs in devel package
+
+* Thu Mar 07 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-4mdk
+- Final rebuild
+
+* Tue Mar 05 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-3mdk
+- Adding .bash_profile and .bashrc for user pvm
+- Changing rsh to ssh
+- Unset export PVM* in pvmd.init : unused before a "daemon --user"
+- Fixing stupid arch problems in spec file
+
+* Mon Mar 04 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-2mdk
+- Including xpvm as subpackage
+
+* Fri Mar 01 2002 Erwan Velu <erwan@mandrakesoft.com> 3.4.4-1mdk
+- First build
+- Cleaning spec
+
+
+
+Revision 1.30  2001/11/12 16:41:53  wiget
+typo
+
+Revision 1.29  2001/11/12 16:02:33  kloczek
+- merge translations from CNV and adapterized spec.
+
+Revision 1.28  2001/11/12 15:57:54  wiget
+updated to 3.4.4
+
+Revision 1.27  2001/11/12 15:07:38  wiget
+fine grained architecture selection
+
+Revision 1.26  2001/11/12 14:31:20  wiget
+release 24
+PVM_ROOT moved to /usr/lib/pvm3
+DEFBINDIR moved to PVM_ROOT/bin/PVM_ARCH
+
+Revision 1.25  2001/10/03 16:40:31  filon
+- added using pvm macro in requires
+
+Revision 1.24  2001/06/30 07:28:22  agaran
+added m4 to buildrequires (no need to rebuild,nor $rel++)
+
+Revision 1.23  2001/04/14 12:04:57  qboosh
+- back commented out scripts and init file - see NOTE
+  please don't uncomment it unless you change pvm behaviour
+- removed "man fix" - man package was broken, now is fixed
+- use %%rpmcflags, added pl translations
+- release 23
+
+Revision 1.22  2001/01/25 20:03:47  misiek
+Massive attack. We use -O0 instead -O flags while debug enabled.
+
+Revision 1.21  2001/01/05 19:23:17  dobrek
+- Added pvm-book.ps to examples subpackage.
+
+Revision 1.20  2001/01/03 23:59:11  kloczek
+- uncomment %%post/%%preun svcripts,
+- release 22 (for allow upgrade from RH),
+- merged RH vaargfix patch,
+- added URL.
+
+Revision 1.19  2001/01/03 21:41:12  qboosh
+- update to 3.4.3
+- updated noenv patch
+
+Revision 1.18  2000/12/27 14:09:35  kloczek
+- adapterized and few cosmetics.
+
+Revision 1.17  2000/12/26 21:05:20  qboosh
+- Release 4:
+- devel and examples subpackages
+- examples to %%{_examplesdir}, not %%{_docdir}
+- fix manuals
+- moved xpvm to separate package (xpvm)
+- setting PVM_ROOT no longer needed
+
+Revision 1.16  2000/12/23 00:48:46  michuz
+- changed %%{!?debug:...}%%{?debug...} to %%{?debug:...}%%{!?debug...}
+  (now it's more C like)
+
+Revision 1.15  2000/12/21 20:43:19  qboosh
+- Release 3:
+- added xpvm (as subpackage)
+- BuildRequires
+- fixed links
+- PVM_ROOT, XPVM_ROOT variables setting (through /etc/profile.d)
+
+Revision 1.14  2000/11/01 18:42:49  dobrek
+- Realase=2
+- A lot of changes. in install and files. It seams that everything can
+  be keept in placec which are in agreement with FHS.
+- Now tested only on i386. But soon the AXP version will apear.
+- pvmd.init added.
+
+Revision 1.13  2000/05/02 21:23:16  baggins
+- fixed version, minor cleanup
+
+Revision 1.12  2000/04/01 11:15:36  zagrodzki
+- changed all BuildRoot definitons
+- removed all applnkdir defs
+- changed some prereqs/requires
+- removed duplicate empty lines
+
+Revision 1.11  2000/03/28 16:55:05  baggins
+- translated kloczkish into english
+
+Revision 1.10  1999/07/18 14:53:24  baggins
+- fixed bogus Group: field
+
+Revision 1.9  1999/07/12 23:06:13  kloczek
+- added using CVS keywords in %%changelog (for automating them).
 

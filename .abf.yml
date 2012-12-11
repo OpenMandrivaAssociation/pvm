@@ -1,9 +1,4 @@
 sources:
-  ".bash_profile:"	40d859d71aeb2ade16659a27a6ef21ead2e75501
-  ".bashrc.pvm:"	c2a1a9099d37b3c0291454e47e878fd4185b22dd
-  "genpubkey:"	b1e1808987bb803debf7347f98943fbc1239fd01
-  "pvm3.4.6.tar.bz2:"	d20d451061e8e45e17c749cc2e0a0fa4198357b1
-  "pvm-book.ps:"	e5c16b9a55394101f74b094a5028c2294e24d230
-  "pvmd.init:"	1677edb2732fcb647d58cf7945bd59f0cf8c8109
-  "pvm.sh:"	578e6beb1537c379a3f61d33faf9a1a06db9e034
-  "sendPublicKeyToHosts:"	08514f6d57e2a83d4884cb62686375f6d508bd60
+  "pvm3.4.6.tar.bz2": d20d451061e8e45e17c749cc2e0a0fa4198357b1
+  "xpvm.src.1.2.5.tar.bz2": 1f688e195633ebc26b69508a99b38c2bbf7a7b8b
+  "xpvm.userguide.bz2": d282a4876e9a19d2e2f2e270817bd22aef8f0ad9

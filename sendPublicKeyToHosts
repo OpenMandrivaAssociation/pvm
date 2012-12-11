@@ -1,0 +1,14 @@
+#!/bin/bash
+PUBKEY=~/.ssh/id_dsa.pub
+HOSTFILE=pvmhosts
+NUM_HOSTS=$(cat $HOSTFILE | wc -l)
+if [ ${NUM_HOSTS} -lt 1 ]; then
+	echo You should add hosts in the $HOSTFILE file !
+	exit
+fi
+echo There is ${NUM_HOSTS} hosts to process
+
+for i in $(cat $HOSTFILE); do
+	echo Processing $i host
+ 	scp $PUBKEY pvm@${i}:~/.ssh/authorized_keys
+done
