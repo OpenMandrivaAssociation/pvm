@@ -1,6 +1,6 @@
 %define name pvm
 %define version 3.4.6
-%define release %mkrel 2
+%define release %mkrel 3
 %define pvmpath %{_datadir}/pvm3
 %define xpvmpath %{name}3/xpvm
 
@@ -33,6 +33,7 @@ BuildRequires:	tcl
 BuildRequires:	tcl-devel
 BuildRequires:	tk
 BuildRequires:	tk-devel
+BuildRequires:  libtirpc-devel
 Requires: 	initscripts >= 5.54
 Requires: 	bash >= 2
 Requires: 	shadow-utils
