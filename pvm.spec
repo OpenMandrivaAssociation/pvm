@@ -4,7 +4,7 @@
 Summary:	Parallel Virtual Machine (PVM)
 Name: 		pvm
 Version: 	3.4.6
-Release: 	3
+Release: 	4
 License:	GPL
 Group:		System/Cluster
 
