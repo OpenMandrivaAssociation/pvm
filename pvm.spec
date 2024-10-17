@@ -22,7 +22,7 @@ Patch4:		pvm3-gcc4.diff
 Patch5:		pvm-ia64.patch
 Patch6:		pvm-ia64-1.patch
 Patch7:		pvm-ia64-2.patch
-URL:		http://www.epm.ornl.gov/pvm/pvm_home.html
+URL:		https://www.epm.ornl.gov/pvm/pvm_home.html
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	readline-devel
 BuildRequires:	m4
@@ -110,7 +110,7 @@ Requires:	%{name} = %{version}
 Source3:	xpvm.src.1.2.5.tar.bz2
 Source4:	xpvm.userguide.bz2
 Group:          Development/Other
-Url:            http://www.netlib.org/pvm3/
+Url:            https://www.netlib.org/pvm3/
 Requires:       pvm, tcl, tk
 BuildRequires:	pkgconfig(x11)
 
