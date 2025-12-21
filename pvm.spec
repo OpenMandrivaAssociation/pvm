@@ -23,6 +23,7 @@ Patch5:		pvm-ia64.patch
 Patch6:		pvm-ia64-1.patch
 Patch7:		pvm-ia64-2.patch
 URL:		https://www.epm.ornl.gov/pvm/pvm_home.html
+BuildRequires:	make
 BuildRequires:	ncurses-devel >= 5.0
 BuildRequires:	readline-devel
 BuildRequires:	m4
